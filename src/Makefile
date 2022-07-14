@@ -29,11 +29,9 @@ cln:
 	rm -rf $(BINDIR)/$(EXECUTABLE)
 	
 clean:
-	rm -rf $(BINDIR)/$(EXECUTABLE) $(addprefix $(OBJDIR)/, $(OBJECTS)) $(BINDIR) $(OBJDIR)
+	rm -rf $(BINDIR)/$(EXECUTABLE) $(addprefix $(OBJDIR)/, $(OBJECTS)) $(BINDIR) $(OBJDIR) $(LIBDIR)
 
 MAKEDIR:
 	mkdir -p $(OBJDIR)
 	mkdir -p $(BINDIR)
 	mkdir -p $(LIBDIR)
-
-
