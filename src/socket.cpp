@@ -44,12 +44,12 @@ bool Socket::isValid ()const
 	return true;
 }	
 
-Socket Socket::operator = (Socket &&s)
+Socket& Socket::operator = (Socket &&s)
 {
 	std::swap(fdsocket, s.fdsocket);
 	std::swap(servinfo, s.servinfo);
 	mType = s.mType;
-	return std::move(*this);
+	return *this;
 }
 
 void Socket::fdclose()
@@ -119,7 +119,7 @@ size_t Socket::Receive(unsigned char *buffer, size_t size, bool fillEntireBuffer
 			printLog("Error receiving ", strerror(err));
 			return 0;
 		}
-		if (ret != int(size))
+		if (ret < int(size))
 		{
 			printLog("Did not fill the eintire buffer", size, " ", ret);
 			if (! retry --)
@@ -128,7 +128,7 @@ size_t Socket::Receive(unsigned char *buffer, size_t size, bool fillEntireBuffer
 			}
 		}
 	}
-	while(ret != int(size) && fillEntireBuffer);
+	while((ret < int(size)) && fillEntireBuffer);
 	return ret;
 }
 
@@ -147,7 +147,7 @@ Socket::Socket(const int &s): fdsocket(s), mType(SERVER),servinfo(nullptr)
 {
 }
 
-Socket::Socket(const std::string &ip, const std::string &port):fdsocket(-1)
+Socket::Socket(const std::string &ip, const std::string &port):fdsocket(-1),mType(INVALID)
 {
 	if (ip.size() == 0 && port.size() == 0)
 	{
@@ -182,12 +182,12 @@ Socket::Socket(const std::string &ip, const std::string &port):fdsocket(-1)
 	printLog(*this);
 }
 
-Socket Socket::operator = (const int&s)
+Socket& Socket::operator = (const int&s)
 {
 	fdclose();
 	fdsocket = s;
 	mType = CLIENT;
-	return std::move(*this);
+	return *this;
 }
 
 std::ostream & operator << (std::ostream &st, const Socket &s)
@@ -241,6 +241,7 @@ Socket ConnectToServer(const std::string &ip, const std::string &port)
 		printLog(strerror(err));
 		return -1;
 	}
+	s.mType = Socket::CLIENT;
 	printLog(s);
 	return s;
 }

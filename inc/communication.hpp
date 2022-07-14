@@ -14,6 +14,7 @@ public:
 	void Close() override;
 	size_t Send(const unsigned char* buffer, size_t size) override;
 	size_t Receive(unsigned char* buffer, size_t size, bool fillEntireBuffer) override;
+	bool IsConnectionOpen() override;
 
 private:
 	Socket m_socket;

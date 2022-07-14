@@ -24,7 +24,13 @@ size_t Communication::Send(const unsigned char* buffer, size_t size)
 {
 	return m_socket.Send(buffer, size);
 }
+
 size_t Communication::Receive(unsigned char* buffer, size_t size, bool fillEntireBuffer)
 {
 	return m_socket.Receive(buffer, size, fillEntireBuffer);
+}
+
+bool Communication::IsConnectionOpen()
+{
+	return m_socket.isValid();
 }

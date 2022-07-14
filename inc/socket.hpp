@@ -22,7 +22,7 @@ public:
 
 	bool isValid ()const;
 	
-	Socket operator = (Socket &&s);
+	Socket& operator = (Socket &&s);
 
 	void fdclose();
 
@@ -41,7 +41,7 @@ private:
 	Socket(const int &s);
 	Socket(const Socket &) = delete;
 	Socket(const std::string &ip, const std::string &port);
-	Socket operator = (const int&s);
+	Socket& operator = (const int&s);
 	int fdsocket;
 	Socket_type_t mType;
 	struct addrinfo* servinfo;  // will point to the results

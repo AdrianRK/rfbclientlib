@@ -18,7 +18,7 @@ public:
 	void SetBellCallback(const bellCallback& cb);
 	void SetServerCutTextCallback(const ServerCutTextCallback& cb);
 
-	rfbProtocol(const std::unique_ptr<ICommunication>& comm);
+	rfbProtocol(std::unique_ptr<ICommunication>&& comm);
 	rfbProtocol(const rfbProtocol&) = delete;
 	rfbProtocol(rfbProtocol&&);
 
@@ -28,7 +28,7 @@ public:
 
 	~rfbProtocol();
 
-	void Init();
+	bool Init();
 
 	void SetPixelFormat();
 	void SetEncoding();
